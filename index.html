@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison N — Halloween 🎃 | Billetterie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a1a;
+            --accent: #ff6b35;
+            --accent-light: #ff8c5a;
+            --bg-dark: #0f0f0f;
+            --bg-card: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+            --orange: #ff6b35;
+            --purple: #a84fd0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #2d1b3d 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .event-info {
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px solid var(--orange);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .form-section {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--orange);
+            background: rgba(255, 107, 53, 0.1);
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.3);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+        }
+
+        .checkbox-label {
+            margin-bottom: 0;
+            font-size: 13px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background: var(--orange);
+            border-radius: 2px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--accent-light) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            background: rgba(76, 175, 80, 0.15);
+            border: 2px solid #4caf50;
+            color: #4caf50;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .ticket-preview {
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px dashed var(--orange);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .ticket-preview.show {
+            display: block;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .ticket-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--orange);
+            margin-bottom: 10px;
+        }
+
+        .ticket-info {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255, 107, 53, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .download-btn {
+            background: rgba(255, 107, 53, 0.2);
+            border: 2px solid var(--orange);
+            color: var(--orange);
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 107, 53, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .logo {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🎃👻</div>
+            <h1>MAISON N</h1>
+            <p class="subtitle">Halloween Edition — 1ère Édition</p>
+            <div class="event-info">
+                🕷️ Une nuit extraordinaire à Namur 🕷️<br>
+                Billetterie en ligne
+            </div>
+        </header>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number" id="ticketsTotal">0</div>
+                <div class="stat-label">Billets Vendus</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="ticketsRemaining">?</div>
+                <div class="stat-label">Places Restantes</div>
+            </div>
+        </div>
+
+        <div id="successMessage" class="success-message">
+            <strong>✅ Inscription confirmée!</strong><br>
+            Tu recevras un email de confirmation avec ton ticket numéroté.
+        </div>
+
+        <!-- Formulaire caché pour Formspree -->
+        <form id="formspreeForm" action="https://formspree.io/f/moevyabb" method="POST" style="display: none;">
+            <input type="hidden" name="Ticket #" id="fs_ticket">
+            <input type="hidden" name="Prénom" id="fs_prenom">
+            <input type="hidden" name="Nom" id="fs_nom">
+            <input type="hidden" name="Email" id="fs_email">
+            <input type="hidden" name="Âge" id="fs_age">
+            <input type="hidden" name="Téléphone" id="fs_telephone">
+            <input type="hidden" name="Adresse" id="fs_adresse">
+            <input type="hidden" name="Code Postal" id="fs_cp">
+            <input type="hidden" name="Ville" id="fs_ville">
+            <input type="hidden" name="Pays" id="fs_pays">
+            <input type="hidden" name="Comment tu nous as découverts" id="fs_referral">
+            <input type="hidden" name="Commentaires" id="fs_commentaires">
+            <input type="hidden" name="Newsletter" id="fs_newsletter">
+        </form>
+
+        <form id="ticketForm">
+            <!-- Informations Personnelles -->
+            <div class="form-section">
+                <h2 class="section-title">Informations Personnelles</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prenom">Prénom *</label>
+                        <input type="text" id="prenom" name="prenom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nom">Nom *</label>
+                        <input type="text" id="nom" name="nom" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="age">Âge *</label>
+                        <input type="number" id="age" name="age" min="18" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telephone">Téléphone</label>
+                        <input type="tel" id="telephone" name="telephone">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adresse -->
+            <div class="form-section">
+                <h2 class="section-title">Adresse</h2>
+
+                <div class="form-group">
+                    <label for="adresse">Rue et numéro *</label>
+                    <input type="text" id="adresse" name="adresse" placeholder="Ex: Rue de la Paix, 123" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="codepostal">Code Postal *</label>
+                        <input type="text" id="codepostal" name="codepostal" placeholder="Ex: 5000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ville">Ville *</label>
+                        <input type="text" id="ville" name="ville" placeholder="Ex: Namur" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pays">Pays *</label>
+                    <select id="pays" name="pays" required>
+                        <option value="">Sélectionne ton pays</option>
+                        <option value="Belgique">Belgique</option>
+                        <option value="France">France</option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Pays-Bas">Pays-Bas</option>
+                        <option value="Allemagne">Allemagne</option>
+                        <option value="Autre">Autre</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Détails du Ticket -->
+            <div class="form-section">
+                <h2 class="section-title">Détails</h2>
+
+                <div class="form-group">
+                    <label for="referral">Comment tu nous as découverts?</label>
+                    <select id="referral" name="referral">
+                        <option value="">Sélectionne une option</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="ami">Un ami</option>
+                        <option value="wordofmouth">Bouche à oreille</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="commentaires">Message ou questions (optionnel)</label>
+                    <textarea id="commentaires" name="commentaires" placeholder="Dis-nous si tu as des allergies, restrictions ou autre..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="conditions" name="conditions" required>
+                        <label for="conditions" class="checkbox-label">
+                            J'accepte les conditions d'accès et le règlement de Maison N *
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter">
+                        <label for="newsletter" class="checkbox-label">
+                            Je souhaite recevoir des updates sur les prochains événements Maison N
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit">🎃 S'INSCRIRE À L'ÉVÉNEMENT</button>
+        </form>
+
+        <div id="ticketPreview" class="ticket-preview">
+            <div class="ticket-number">Ticket #<span id="ticketNumber"></span></div>
+            <div class="ticket-info">Un email de confirmation a été envoyé à <strong id="confirmEmail"></strong></div>
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255, 107, 53, 0.2);">
+            <button class="download-btn" id="downloadBtn" style="display: none;">
+                📥 TÉLÉCHARGER LES INSCRIPTIONS (CSV)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration Formspree
+        const FORMSPREE_URL = 'https://formspree.io/f/moevyabb';
+
+        // Gestion des inscriptions avec localStorage
+        const STORAGE_KEY = 'maison_n_halloween_tickets';
+        const MAX_TICKETS = 50; // À adapter selon vos besoins
+
+        function getTickets() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function saveTicket(ticketData) {
+            const tickets = getTickets();
+            ticketData.ticketNumber = tickets.length + 1;
+            ticketData.timestamp = new Date().toISOString();
+            tickets.push(ticketData);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(tickets));
+            return ticketData.ticketNumber;
+        }
+
+        function sendToFormspree(ticketNumber, formData) {
+            // Remplir le formulaire caché
+            document.getElementById('fs_ticket').value = ticketNumber;
+            document.getElementById('fs_prenom').value = formData.prenom;
+            document.getElementById('fs_nom').value = formData.nom;
+            document.getElementById('fs_email').value = formData.email;
+            document.getElementById('fs_age').value = formData.age;
+            document.getElementById('fs_telephone').value = formData.telephone;
+            document.getElementById('fs_adresse').value = formData.adresse;
+            document.getElementById('fs_cp').value = formData.codepostal;
+            document.getElementById('fs_ville').value = formData.ville;
+            document.getElementById('fs_pays').value = formData.pays;
+            document.getElementById('fs_referral').value = formData.referral;
+            document.getElementById('fs_commentaires').value = formData.commentaires;
+            document.getElementById('fs_newsletter').value = formData.newsletter ? 'Oui' : 'Non';
+
+            // Soumettre le formulaire caché vers Formspree
+            setTimeout(() => {
+                document.getElementById('formspreeForm').submit();
+            }, 500);
+        }
+
+        function updateStats() {
+            const tickets = getTickets();
+            const totalSold = tickets.length;
+            const remaining = MAX_TICKETS - totalSold;
+
+            document.getElementById('ticketsTotal').textContent = totalSold;
+            document.getElementById('ticketsRemaining').textContent = Math.max(0, remaining);
+
+            // Afficher le bouton download si admin
+            if (totalSold > 0) {
+                document.getElementById('downloadBtn').style.display = 'block';
+            }
+        }
+
+        function downloadCSV() {
+            const tickets = getTickets();
+            if (tickets.length === 0) {
+                alert('Aucune inscription pour le moment.');
+                return;
+            }
+
+            let csv = 'Ticket #,Nom,Prénom,Email,Age,Téléphone,Adresse,Code Postal,Ville,Pays,Référral,Commentaires,Date\n';
+
+            tickets.forEach(ticket => {
+                const row = [
+                    ticket.ticketNumber,
+                    ticket.nom,
+                    ticket.prenom,
+                    ticket.email,
+                    ticket.age,
+                    ticket.telephone,
+                    ticket.adresse,
+                    ticket.codepostal,
+                    ticket.ville,
+                    ticket.pays,
+                    ticket.referral,
+                    `"${(ticket.commentaires || '').replace(/"/g, '""')}"`,
+                    new Date(ticket.timestamp).toLocaleString('fr-BE')
+                ];
+                csv += row.join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `maison-n-halloween-inscriptions-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const tickets = getTickets();
+            if (tickets.length >= MAX_TICKETS) {
+                alert('Désolé, tous les tickets sont vendus! 🎃');
+                return;
+            }
+
+            const formData = {
+                nom: document.getElementById('nom').value,
+                prenom: document.getElementById('prenom').value,
+                email: document.getElementById('email').value,
+                age: document.getElementById('age').value,
+                telephone: document.getElementById('telephone').value,
+                adresse: document.getElementById('adresse').value,
+                codepostal: document.getElementById('codepostal').value,
+                ville: document.getElementById('ville').value,
+                pays: document.getElementById('pays').value,
+                referral: document.getElementById('referral').value,
+                commentaires: document.getElementById('commentaires').value,
+                newsletter: document.getElementById('newsletter').checked
+            };
+
+            const ticketNumber = saveTicket(formData);
+
+            // Envoyer à Formspree en arrière-plan
+            sendToFormspree(ticketNumber, formData);
+
+            // Afficher le message de succès
+            document.getElementById('successMessage').classList.add('show');
+            document.getElementById('ticketNumber').textContent = ticketNumber;
+            document.getElementById('confirmEmail').textContent = formData.email;
+            document.getElementById('ticketPreview').classList.add('show');
+
+            // Réinitialiser le formulaire
+            this.reset();
+            document.getElementById('successMessage').classList.remove('show');
+
+            // Mettre à jour les stats
+            updateStats();
+
+            // Scroll vers le ticket
+            setTimeout(() => {
+                document.getElementById('ticketPreview').scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', downloadCSV);
+
+        // Initialiser les stats au chargement
+        updateStats();
+    </script>
+</body>
+</html>
